@@ -19,8 +19,8 @@ export default function Cart() {
     const { error } = await stripe!.redirectToCheckout({
       lineItems,
       mode: 'payment',
-      successUrl: 'http://localhost:3000/success',
-      cancelUrl: 'http://localhost:3000/cancel',
+      successUrl: 'https://tinnitus-tees.vercel.app/success',
+      cancelUrl: 'https://tinnitus-tees.vercel.app/cancel',
     });
 
     if (error) console.error(error);
