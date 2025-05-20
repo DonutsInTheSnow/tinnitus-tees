@@ -11,6 +11,7 @@ export default function Cart() {
 
   const handleCheckout = async () => {
     const stripe = await stripePromise;
+    console.log('Cart items:', cart);
     const lineItems = cart.map((item) => ({
       price: item.stripe_price_id,
       quantity: item.quantity,
