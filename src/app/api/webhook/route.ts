@@ -20,24 +20,31 @@ export async function POST(req: Request) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session;
+
+    // Fetch all line items from the session
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
-    const priceId = lineItems.data[0]?.price?.id;
-  
+    const items = lineItems.data.map(item => ({
+      price_id: item.price?.id,
+      quantity: item.quantity,
+    }));
+
     console.log('Session:', session);
-    console.log('Price ID:', priceId);
-  
+    console.log('Line items:', items);
+
+    // Insert order into Supabase
     const { data, error } = await supabase.from('orders').insert({
-      product_id: priceId,
+      items, // Store all items with their price IDs and quantities
       amount_total: session.amount_total,
       status: 'completed',
       user_id: session.client_reference_id || null,
+      customer_email: session.customer_details?.email || null, // Add customer email if available
     });
-  
+
     if (error) {
       console.error('Supabase insert error:', error);
       return NextResponse.json({ error: 'Failed to save order' }, { status: 500 });
     }
-  
+
     console.log('Inserted order:', data);
   }
 
