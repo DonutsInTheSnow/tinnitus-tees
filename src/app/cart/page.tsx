@@ -2,29 +2,33 @@
 
 // import { useCart } from '@/lib/CartContext';
 // import Image from 'next/image';
-// import { loadStripe } from '@stripe/stripe-js';
-
-// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 // export default function Cart() {
 //   const { cart, updateQuantity, removeFromCart, clearCart } = useCart();
 
 //   const handleCheckout = async () => {
-//     const stripe = await stripePromise;
-//     console.log('Cart items:', cart);
-//     const lineItems = cart.map((item) => ({
-//       price: item.stripe_price_id,
-//       quantity: item.quantity,
-//     }));
+//     try {
+//       // Send cart data to the server-side API route
+//       const response = await fetch('/api/checkout', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ cart }),
+//       });
 
-//     const { error } = await stripe!.redirectToCheckout({
-//       lineItems,
-//       mode: 'payment',
-//       successUrl: 'https://tinnitus-tees.vercel.app/success',
-//       cancelUrl: 'https://tinnitus-tees.vercel.app/cancel',
-//     });
+//       const data = await response.json();
 
-//     if (error) console.error(error);
+//       if (!response.ok) {
+//         throw new Error(data.error || 'Checkout failed');
+//       }
+
+//       // Redirect to the Stripe Checkout URL
+//       window.location.href = data.url;
+//     } catch (error) {
+//       console.error('Checkout error:', error);
+//       alert('Failed to initiate checkout. Please try again.');
+//     }
 //   };
 
 //   return (
@@ -117,13 +121,12 @@ export default function Cart() {
 
   const handleCheckout = async () => {
     try {
-      // Send cart data to the server-side API route
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ cart }),
+        body: JSON.stringify({ cart }), // Change from { items: cart } to { cart }
       });
 
       const data = await response.json();
@@ -132,7 +135,6 @@ export default function Cart() {
         throw new Error(data.error || 'Checkout failed');
       }
 
-      // Redirect to the Stripe Checkout URL
       window.location.href = data.url;
     } catch (error) {
       console.error('Checkout error:', error);
@@ -149,7 +151,7 @@ export default function Cart() {
         <div className="space-y-4">
           {cart.map((item) => (
             <div
-              key={`${item.id}-${item.selectedSize}`} // Unique key for items with different sizes
+              key={`${item.id}-${item.selectedSize}`}
               className="flex items-center border p-4 rounded-md shadow-sm"
             >
               <Image
