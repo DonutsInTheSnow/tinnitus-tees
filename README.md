@@ -1,10 +1,12 @@
 # Tinnitus Tees - Next.js Portfolio Project
 
-**Tinnitus Tees** is an e-commerce demo built with [Next.js](https://nextjs.org) to showcase my ability to develop full-stack web applications. This is the first of 10 planned Next.js projects, each exploring different themes and functionalities. Key features include a product catalog, cart system, and Stripe checkout integration with Supabase for order management.
+# Tinnitus Tees - A Next.js Yarn for the Ages
+
+Now, **Tinnitus Tees** ain’t nothin’ but a fancy e-commerce contraption, spun up with this newfangled [Next.js](https://nextjs.org) to show I can wrangle a full-stack web doodad from start to finish. It’s the first of ten such ventures I reckon to undertake, each one a different critter with its own peculiar ways and means. You’ll find a catalog of goods, a cart to toss ‘em in, and a Stripe checkout that’ll take your money quicker’n a Mississippi gambler, all tied up neat with Supabase to keep the orders straight.
 
 ## Purpose
 
-This mock project demonstrates my skills in building, testing, and deploying Next.js apps to prospective employers and developers. It includes Jest testing and Vercel deployment.
+This here mock-up’s meant to prove to prospective bosses and tinkerers alike that I can build, test, and set sail a Next.js app without runnin’ aground. I’ve thrown in some Jest testin’ to keep things honest and shipped it off to Vercel for the world to see—provided they ain’t too busy fishin’ for compliments elsewhere.
 
 ## Live Demo
 
