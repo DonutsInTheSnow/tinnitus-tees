@@ -1,5 +1,6 @@
-import type { Metadata } from 'next';
+// Chag again 6/2/25
 import './globals.css';
+import type { Metadata } from 'next';
 import { CartProvider } from '@/lib/CartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -15,11 +16,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="antialiased flex flex-col min-h-screen">
+    <html lang="en" className="h-full">
+      <body className="antialiased flex flex-col min-h-screen relative h-full overflow-x-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          className="fixed inset-0 w-full h-full object-cover z-[-10]"
+        >
+          <source src="/videos/sea-drone-bg.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
         <CartProvider>
           <Header />
-          <div className="flex-1">{children}</div>
+          <main className="flex-1 relative z-10">{children}</main>
           <Footer />
         </CartProvider>
       </body>

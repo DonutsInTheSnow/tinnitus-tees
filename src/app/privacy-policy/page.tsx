@@ -1,6 +1,6 @@
 export default function PrivacyPolicy() {
   return (
-    <main className="p-8 max-w-6xl mx-auto">
+    <main className="mt-2.5 p-8 max-w-6xl mx-auto text-red-950" style={{ background: 'rgba(255, 255, 255, 0.5)', borderRadius: '15px' }}>
       <h1 className="text-4xl font-bold mb-6">Privacy Policy</h1>
       <section className="space-y-4">
         <p>Last updated: May 19, 2025</p>

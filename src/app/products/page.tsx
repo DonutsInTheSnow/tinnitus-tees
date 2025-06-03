@@ -33,8 +33,8 @@ export default function Home() {
 
   return (
     <>
-      <main className="p-8 max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-6">Tinnitus Tees</h1>
+      <main className="p-8 max-w-6xl mx-auto bg-black md:mt-[35px]">
+        <h1 className="text-[42px] font-joti mb-6">Tinnitus TEES</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.length === 0 ? (
             <p className="text-center text-lg col-span-full">No products available.</p>
