@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-      <main className="relative z-10 flex flex-col items-center justify-start h-full text-white px-4 pt-28 md:pt-10">
+      <main className="relative z-10 flex flex-col items-center justify-start h-full text-white px-4 pt-16 md:pt-10">
         <h1
           className="text-[48px] md:text-[100px] font-joti text-center"
           style={{ textShadow: '0 4px 4px #000000' }}
@@ -21,7 +21,6 @@ export default function Home() {
         >
           Iconic rock band T-shirts
         </h2>
-        {/* <p className="text-lg sm:text-xl mb-6 text-center"> */}
         <p className="text-[24px] md:text-[35px] mb-6 text-center text-yellow-200" style={{ textShadow: '0 2px 2px #000000' }}>
           Keeping time like the tides without the tie-dyeds.
         </p>
