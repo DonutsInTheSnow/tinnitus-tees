@@ -11,7 +11,7 @@ export default function Home() {
           Tinnitus TEES
         </h1>
         <h2
-          className="text-[28px] md:text-[58px] font-joti text-center"
+          className="text-[38px] md:text-[58px] font-joti text-center"
           style={{
             WebkitTextStroke: '1px #D0C779',
             color: '#000000',
@@ -22,7 +22,7 @@ export default function Home() {
           Iconic rock band T-shirts
         </h2>
         {/* <p className="text-lg sm:text-xl mb-6 text-center"> */}
-        <p className="text-[20px] md:text-[35px] mb-6 text-center text-yellow-200" style={{ textShadow: '0 2px 2px #000000' }}>
+        <p className="text-[24px] md:text-[35px] mb-6 text-center text-yellow-200" style={{ textShadow: '0 2px 2px #000000' }}>
           Keeping time like the tides without the tie-dyeds.
         </p>
         <Link href="/products">
