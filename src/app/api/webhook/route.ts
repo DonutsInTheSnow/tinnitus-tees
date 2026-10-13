@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { supabaseAdmin } from '@/lib/supabaseAdmin'; // Update the import
+import { supabaseAdmin } from '@/lib/supabaseAdmin'; 
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
@@ -29,25 +29,32 @@ export async function POST(req: Request) {
       quantity: item.quantity,
     }));
 
-    console.log('Session:', session);
     console.log('Line items:', items);
     console.log('Customer email:', session.customer_details?.email);
 
-    // Insert order into Supabase using supabaseAdmin
-    const { data, error } = await supabaseAdmin.from('orders').insert({
-      items, // Store all items with their price IDs and quantities
-      amount_total: session.amount_total,
-      status: 'completed',
-      user_id: session.client_reference_id || null,
-      customer_email: session.customer_details?.email || null,
-    });
+    const { error } = await supabaseAdmin
+    .from('orders')
+    .upsert(
+      {
+        stripe_session_id: session.id,
+        items,
+        amount_total: session.amount_total,
+        status: 'completed',
+        user_id: session.client_reference_id || null,
+        customer_email: session.customer_details?.email || null,
+      },
+      {
+        onConflict: 'stripe_session_id',
+        ignoreDuplicates: true,
+      }
+    );
 
     if (error) {
       console.error('Supabase insert error:', error);
       return NextResponse.json({ error: 'Failed to save order' }, { status: 500 });
     }
 
-    console.log('Inserted order:', data);
+    console.log('Processed Stripe session:', session.id);
   } else {
     console.log('Unhandled event type:', event.type);
   }

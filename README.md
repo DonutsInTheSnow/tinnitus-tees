@@ -1,28 +1,75 @@
 # Tinnitus Tees - Next.js Portfolio Project
 
-Now, **Tinnitus Tees** ain’t nothin’ but a fancy e-commerce contraption, spun up with this newfangled [Next.js](https://nextjs.org) to show I can wrangle a full-stack web doodad from start to finish. It’s the first of ten such ventures I reckon to undertake, each one a different critter with its own peculiar ways and means. You’ll find a catalog of goods, a cart to toss ‘em in, and a Stripe checkout that’ll take your money quicker’n a Mississippi gambler, all tied up neat with Supabase to keep the orders straight.
+Tinnitus Tees ain't nothin' but a fancy e-commerce contraption, built with Next.js, TypeScript, Stripe, and Supabase. It's a full-stack storefront where shoppers can browse a catalog, fill their carts, and head to checkout quicker'n a Mississippi gambler can shuffle a deck.
+
+Behind the curtain, there's a little more engineering than meets the eye.
 
 ## Purpose
 
-This here mock-up’s meant to prove to prospective bosses and tinkerers alike that I can build, test, and set sail a Next.js app without runnin’ aground. I’ve thrown in some Jest testin’ to keep things honest and shipped it off to Vercel for the world to see—provided they ain’t too busy fishin’ for compliments elsewhere.
+This project demonstrates practical full-stack software development, including frontend interfaces, server-side API routes, third-party integrations, database operations, and payment-processing reliability.
 
-## Live Demo
+It's a portfolio demonstration, not a commercial storefront. Stripe transactions use test mode, so no real money changes hands.
 
-Visit the production app at [https://tinnitus-tees.vercel.app/](https://tinnitus-tees.vercel.app/) to see it in action.
+## Technology Stack
+
+- Next.js App Router — Application architecture and server-side routes
+
+- React and TypeScript — Interactive, type-safe frontend
+
+- Tailwind CSS — Responsive styling
+
+- Supabase / PostgreSQL — Product catalog and order persistence
+
+- Stripe Checkout — Test-mode payment processing
+
+- Jest — Testing infrastructure
+
+- Vercel — Planned production hosting
+
+## Features 
+- Product catalog with size selection
+
+- Shopping cart with quantity management
+
+- Stripe-hosted checkout
+
+- Webhook signature verification
+
+- Server-side order persistence in PostgreSQL
+
+- Idempotent webhook processing to prevent duplicate orders
+
+## Payment Reliability
+Stripe webhooks may be delivered more than once. Tinnitus Tees stores each Checkout Session ID and enforces uniqueness at the database level.
+
+Repeated webhook deliveries are acknowledged without creating duplicate orders.
+
+This behavior has been verified using a replayed Stripe event and a PostgreSQL query.
 
 ## Getting Started Locally
 
-To run the app locally, clone the repo, install dependencies, and set up environment variables (see `.env.local` requirements). Then, run the development server:
+Clone the repository and install dependencies:
 
 ```
-bash
+npm ci
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the app.
+Configure the required environment variables in .env.local, including Supabase credentials and Stripe test credentials.
+
+Start the Stripe CLI listener to forward checkout events to the local webhook endpoint.
+
+Open http://localhost:3000.
+
+Security: Never commit .env.local or expose server-side API secrets.
+
+## Testing
+Jest configuration is included. Automated test coverage is being reviewed and expanded.
+
+Payment checkout, webhook processing, and duplicate-order prevention have been verified through manual integration testing.
 
 ## Deployment
 
-Deployed on Vercel. See [Next.js deployment docs](https://nextjs.org/docs/app/getting-started/deploying) for details.
+Vercel deployment is planned. The public demo URL will be added after deployment and verification.
 
-
+*Built by Rich Hudson. Proof that even a humble T-shirt shop can teach a fellow a thing or two about software engineering.*
