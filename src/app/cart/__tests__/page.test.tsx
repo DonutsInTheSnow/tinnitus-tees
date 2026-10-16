@@ -56,7 +56,7 @@ describe('Cart Page', () => {
     const increaseButton = screen.getByText('+');
     fireEvent.click(increaseButton);
 
-    expect(mockUseCart.updateQuantity).toHaveBeenCalledWith('1', 2); // id: '1', quantity: 2
+    expect(mockUseCart.updateQuantity).toHaveBeenCalledWith('1', 'M', 2); // id: '1', quantity: 2
   });
 
     test('initiates checkout when clicking checkout button', async () => {
