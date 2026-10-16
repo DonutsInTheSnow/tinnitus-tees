@@ -1,0 +1,30 @@
+
+name: Supabase Keepalive
+
+on:
+  schedule:
+    # Three times daily, UTC
+    - cron: "17 7,15,23 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-database:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Query Supabase products
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          curl --fail --silent --show-error \
+            --retry 3 \
+            --max-time 20 \
+            -H "apikey: ${SUPABASE_PUBLISHABLE_KEY}" \
+            "${SUPABASE_URL%/}/rest/v1/products?select=id&limit=1" \
+            > /dev/null
+
+          echo "Supabase database query succeeded."
