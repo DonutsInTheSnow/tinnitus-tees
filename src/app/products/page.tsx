@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { fetchProducts } from '@/lib/supabaseClient';
 import Image from 'next/image';
 import { useCart } from '@/lib/CartContext';
@@ -18,6 +18,8 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<{ [key: string]: string }>({}); // Track selected size per product
   const { addToCart } = useCart();
+  const [addedProductId, setAddedProductId] = useState<string | null>(null);
+  const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -25,6 +27,14 @@ export default function Home() {
       setProducts(productsFromDB);
     };
     getProducts();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (feedbackTimer.current) {
+        clearTimeout(feedbackTimer.current);
+      }
+    };
   }, []);
 
   const handleSizeChange = (productId: string, size: string) => {
@@ -71,14 +81,29 @@ export default function Home() {
                     ))}
                   </select>
                 </div>
+
                 <button
-                  onClick={() =>
-                    addToCart(product, selectedSizes[product.id] || product.sizes[0])
-                  }
+                  onClick={() => {
+                    addToCart(product, selectedSizes[product.id] || product.sizes[0]);
+                    setAddedProductId(product.id);
+
+                    if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
+
+                    feedbackTimer.current = setTimeout(() => {
+                      setAddedProductId(null);
+                    }, 2500);
+                  }}
                   className="mt-2 w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 cursor-pointer"
                 >
                   Add to Cart
                 </button>
+
+                {addedProductId === product.id && (
+                  <p role="status" className="mt-2 text-sm text-green-300">
+                    ✓ Added to cart!
+                  </p>
+                )}
+
               </div>
             ))
           )}
