@@ -72,4 +72,57 @@ describe('Products Page', () => {
 
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
   });
+
+
+  test('shows confirmation for the most recently added product', async () => {
+    const secondProduct = {
+        ...mockProduct,
+        id: '2',
+        name: 'Black Keys Tee',
+    };
+
+    (fetchProducts as jest.Mock).mockResolvedValueOnce([
+        mockProduct,
+        secondProduct,
+    ]);
+
+    render(<Home />);
+
+    await screen.findByText('Black Keys Tee');
+    jest.useFakeTimers();
+
+    const buttons = screen.getAllByRole('button', {
+        name: 'Add to Cart',
+    });
+
+    // Add the first product
+    fireEvent.click(buttons[0]);
+
+    act(() => {
+        jest.advanceTimersByTime(1500);
+    });
+
+    // Add a second product 1.5 seconds later
+    fireEvent.click(buttons[1]);
+
+    expect(mockAddToCart).toHaveBeenCalledTimes(2);
+    expect(mockAddToCart).toHaveBeenLastCalledWith(secondProduct, 'M');
+    expect(screen.getAllByRole('status')).toHaveLength(1);
+
+    // The first timer would have expired by now
+    act(() => {
+        jest.advanceTimersByTime(1000);
+    });
+
+    // The second confirmation should still be visible
+    expect(screen.getByRole('status')).toBeInTheDocument();
+
+    // The second confirmation expires after 2.5 seconds
+    act(() => {
+        jest.advanceTimersByTime(1500);
+    });
+
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+  });
+
 });
